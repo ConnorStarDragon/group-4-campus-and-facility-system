@@ -48,7 +48,7 @@ public:
     bool isEmpty();
 
     // add a department
-    void addDepartment(string name, string parentName, string &error);
+    bool addDepartment(string name, string parentName, string &error);
 
     // Load department from file
     void loadFromFile(string filename);
