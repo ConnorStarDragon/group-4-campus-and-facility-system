@@ -9,7 +9,7 @@ using namespace std;
 struct DepartmentNode
 {
     string name;
-    DepartmentNode *next;
+    // DepartmentNode *next;
     vector<DepartmentNode *> children;
     DepartmentNode *parent;
 
