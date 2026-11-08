@@ -190,6 +190,8 @@ bool DepartmentTree::addDepartment(string name, string parentName, string &error
 // Load departments from departments.txt
 void DepartmentTree::loadFromFile(string filePath)
 {
+    cout << endl; // Separate facility and department loading output
+
     ifstream file(filePath);
 
     int accepted = 0;
@@ -253,18 +255,23 @@ void DepartmentTree::loadFromFile(string filePath)
     file.close();
 
     // Display the results of loading the file
-    cout << "departments.txt: " << accepted << " accepted, " << rejected << " rejected" << endl;
+    // Display the results of loading the file
+    cout << "departments.txt loaded successfully." << endl;
+    cout << "Total departments loaded: " << accepted << endl;
+    cout << accepted << " accepted " << rejected << " rejected" << endl;
 }
 
 // Search for a department and display its information
-void DepartmentTree::searchDepartment(string name)
+
+// Search for a department and display its information
+bool DepartmentTree::searchDepartment(string name)
 {
     name = trimDepartmentField(name);
 
     if (name.empty())
     {
         cout << "Error: Department name cannot be empty." << endl;
-        return;
+        return false;
     }
 
     DepartmentNode *found = findNode(root, name);
@@ -272,7 +279,7 @@ void DepartmentTree::searchDepartment(string name)
     if (found == nullptr)
     {
         cout << "Department not found: " << name << endl;
-        return;
+        return false;
     }
 
     // Calculate the department depth
@@ -300,6 +307,8 @@ void DepartmentTree::searchDepartment(string name)
     cout << "Direct children: " << found->children.size() << endl;
 
     cout << "Depth: " << depth << endl;
+
+    return true;
 }
 
 // Print departments with indentation
@@ -366,4 +375,34 @@ void DepartmentTree::preorderTraversal()
     bool first = true;
     printPreorder(root, first);
     cout << endl;
+}
+
+// Prints each department on a separate line
+void DepartmentTree::printDepartmentList(DepartmentNode *current)
+{
+    if (current == nullptr)
+    {
+        return;
+    }
+
+    cout << current->name << endl;
+
+    for (DepartmentNode *child : current->children)
+    {
+        printDepartmentList(child);
+    }
+}
+
+// Displays all departments
+void DepartmentTree::displayDepartments()
+{
+    if (root == nullptr)
+    {
+        cout << "No departments are loaded." << endl;
+        return;
+    }
+
+    cout << "\n===== ALL DEPARTMENTS =====" << endl;
+
+    printDepartmentList(root);
 }

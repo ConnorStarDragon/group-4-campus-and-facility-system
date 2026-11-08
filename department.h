@@ -25,6 +25,9 @@ struct DepartmentNode
 class DepartmentTree
 {
 private:
+    // Print all department names
+    void printDepartmentList(DepartmentNode *current);
+
     DepartmentNode *root;
 
     // Search for a department node by name
@@ -40,6 +43,9 @@ private:
     void deleteNodes(DepartmentNode *current);
 
 public:
+    // Display all departments
+    void displayDepartments();
+
     // Creates and destroys the tree
     DepartmentTree();
     ~DepartmentTree();
@@ -54,7 +60,7 @@ public:
     void loadFromFile(string filename);
 
     // Search and display department info
-    void searchDepartment(string name);
+    bool searchDepartment(string name);
 
     // Display the department hierarchy
     void displayHierarchy();
