@@ -8,6 +8,8 @@
 
 #include "HashTable.h"
 #include "department.h"
+#include "CampusGraph.h"
+#include "GraphLoader.h"
 
 using namespace std;
 
@@ -124,19 +126,27 @@ int main()
     // Load department tree from file
     departments.loadFromFile("departments.txt");
 
+    CampusGraph graph;
+
+    // Load campus graph from files
+    GraphLoader::loadBuildings("buildings.txt", graph);
+    GraphLoader::loadConnections("connections.txt", graph);
+
     cout << "\nThank you for using the Facilities Management System!";
 
     while (true)
     {
         cout << "\n\nPlease enter the number corresponding to the action you would like to take." << endl;
-        cout << "1. Display all facilities" << endl;
-        cout << "2. Search for a facility" << endl;
-        cout << "3. Add department" << endl;
-        cout << "4. Search department" << endl;
-        cout << "5. Display department hierarchy" << endl;
-        cout << "6. Run preorder traversal" << endl;
-        cout << "7. Display all departments" << endl;
-        cout << "8. Exit" << endl;
+        cout << "1. View all facilities" << endl;
+        cout << "2. Search facility by ID" << endl;
+        cout << "3. View campus graph" << endl;
+        cout << "4. Display graph counts and degrees" << endl;
+        cout << "5. Find reachable buildings (BFS)" << endl;
+        cout << "6. Add department" << endl;
+        cout << "7. Search department" << endl;
+        cout << "8. Display department hierarchy" << endl;
+        cout << "9. Run preorder traversal" << endl;
+        cout << "10. Exit" << endl;
 
         int input;
         cin >> input;
@@ -174,7 +184,29 @@ int main()
             }
             break;
         }
-        case 3:
+        case 3: 
+            graph.displayGraph();
+            break;
+
+        case 4: 
+            graph.displayGraphStatistics();
+            break;
+
+        case 5: 
+        {
+            string start;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Enter starting building: ";
+            getline(cin, start);
+            trim(start);
+
+            if (start.empty())
+                cout << "Error: Building name cannot be blank." << endl;
+            else
+                graph.bfsReachability(start);   // prints its own error for unknown buildings
+            break;
+        }
+        case 6:
         {
             string name;
             string parent;
@@ -222,7 +254,7 @@ int main()
             }
             break;
         }
-        case 4:
+        case 7:
         {
             string name;
 
@@ -249,27 +281,21 @@ int main()
             }
             break;
         }
-        case 5:
+        case 8:
         {
             cout << "DEBUG: Case 5 is running!" << endl;
             departments.displayHierarchy();
             break;
         }
 
-        case 6:
+        case 9:
         {
             cout << "DEBUG: Case 6 is running!" << endl;
             departments.preorderTraversal();
             break;
         }
 
-        case 7:
-        {
-            cout << "DEBUG: Case 7 is running!" << endl;
-            departments.displayDepartments();
-            break;
-        }
-        case 8: // Changed from Case 3 to Case 8 after Department changes
+        case 10: 
             cout << "Exiting the program. Goodbye!" << endl;
             return 0;
             break;
