@@ -42,6 +42,14 @@ public:
     int getConnectionCount() const;
 
     int getDegree(int vertex) const;
+
+    void shortestPath(
+        const std::string& startBuilding,
+        const std::string& destinationBuilding) const;
+
+    int countConnectedComponents() const;
+
+    void displayConnectivityReport() const;
 };
 
 #endif
