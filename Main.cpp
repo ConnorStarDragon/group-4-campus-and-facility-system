@@ -146,7 +146,9 @@ int main()
         cout << "7. Search department" << endl;
         cout << "8. Display department hierarchy" << endl;
         cout << "9. Run preorder traversal" << endl;
-        cout << "10. Exit" << endl;
+        cout << "10. Find shortest path (BFS)" << endl;
+		cout << "11. Graph connectivity report" << endl;
+        cout << "12. Exit" << endl;
 
         int input;
         cin >> input;
@@ -294,8 +296,46 @@ int main()
             departments.preorderTraversal();
             break;
         }
+        case 10:
+		{
+			string start;
+			string destination;
 
-        case 10: 
+			cin.ignore(
+				numeric_limits<streamsize>::max(),
+				'\n');
+
+			cout << "Enter start building: ";
+			getline(cin, start);
+
+			cout << "Enter destination building: ";
+			getline(cin, destination);
+
+			trim(start);
+			trim(destination);
+
+			if (start.empty() ||
+				destination.empty())
+			{
+				cout << "Error: Building name cannot be blank."
+					 << endl;
+			}
+			else
+			{
+				graph.shortestPath(
+					start,
+					destination);
+			}
+
+			break;
+		}
+		case 11:
+		{
+			graph.displayConnectivityReport();
+			break;
+		}
+
+        case 12: 
             cout << "Exiting the program. Goodbye!" << endl;
             return 0;
             break;
