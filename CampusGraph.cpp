@@ -262,4 +262,262 @@ void CampusGraph::bfsReachability(
          << " of "
          << buildings.size()
          << " buildings\n";
+    
+}
+void CampusGraph::shortestPath(
+    const string& startBuilding,
+    const string& destinationBuilding) const
+{
+    int start =
+        findBuildingIndex(startBuilding);
+
+    int destination =
+        findBuildingIndex(destinationBuilding);
+
+    if (start == -1)
+    {
+        cout << "\nUnknown building: "
+             << startBuilding
+             << "\n";
+        return;
+    }
+
+    if (destination == -1)
+    {
+        cout << "\nUnknown building: "
+             << destinationBuilding
+             << "\n";
+        return;
+    }
+
+    if (start == destination)
+    {
+        cout << "\n===== SHORTEST PATH =====\n";
+
+        cout << buildings[start]
+             << "\n";
+
+        cout << "Number of connections: 0\n";
+
+        return;
+    }
+
+    vector<bool> visited(
+        buildings.size(),
+        false);
+
+    vector<int> parent(
+        buildings.size(),
+        -1);
+
+    queue<int> q;
+
+    visited[start] = true;
+
+    q.push(start);
+
+    bool pathFound = false;
+
+	while (!q.empty() && !pathFound)
+	{
+		int current = q.front();
+		q.pop();
+
+		for (int neighbor :
+			adjacencyList[current])
+		{
+			if (!visited[neighbor])
+			{
+				visited[neighbor] = true;
+				parent[neighbor] = current;
+
+				q.push(neighbor);
+
+				if (neighbor == destination)
+				{
+					pathFound = true;
+					break;
+				}
+			}
+		}
+	}
+
+    if (!visited[destination])
+    {
+        cout << "\nNo path exists between "
+             << buildings[start]
+             << " and "
+             << buildings[destination]
+             << ".\n";
+
+        return;
+    }
+
+    vector<int> path;
+
+    int current = destination;
+
+    while (current != -1)
+    {
+        path.push_back(current);
+
+        current = parent[current];
+    }
+
+    reverse(
+        path.begin(),
+        path.end());
+
+    cout << "\n===== SHORTEST PATH =====\n";
+
+    for (int vertex : path)
+    {
+        cout << buildings[vertex]
+             << "\n";
+    }
+
+    cout << "Number of connections: "
+         << path.size() - 1
+         << "\n";
+}
+int CampusGraph::countConnectedComponents() const
+{
+    if (buildings.empty())
+    {
+        return 0;
+    }
+
+    vector<bool> visited(
+        buildings.size(),
+        false);
+
+    int componentCount = 0;
+
+    for (size_t i = 0;
+         i < buildings.size();
+         i++)
+    {
+        if (visited[i])
+        {
+            continue;
+        }
+
+        componentCount++;
+
+        queue<int> q;
+
+        visited[i] = true;
+
+        q.push(i);
+
+        while (!q.empty())
+        {
+            int current = q.front();
+
+            q.pop();
+
+            for (int neighbor :
+                 adjacencyList[current])
+            {
+                if (!visited[neighbor])
+                {
+                    visited[neighbor] = true;
+
+                    q.push(neighbor);
+                }
+            }
+        }
+    }
+
+    return componentCount;
+}
+void CampusGraph::displayConnectivityReport() const
+{
+    cout << "\n===== GRAPH CONNECTIVITY REPORT =====\n";
+
+    if (buildings.empty())
+    {
+        cout << "Total buildings: 0\n";
+        cout << "Total connections: 0\n";
+        cout << "Connected components: 0\n";
+        return;
+    }
+
+    cout << "Total buildings: "
+         << getBuildingCount()
+         << "\n";
+
+    cout << "Total connections: "
+         << getConnectionCount()
+         << "\n";
+
+    int highestDegree = -1;
+
+    for (size_t i = 0;
+         i < buildings.size();
+         i++)
+    {
+        highestDegree =
+            max(
+                highestDegree,
+                getDegree(i));
+    }
+
+    cout << "\nHighest degree ("
+         << highestDegree
+         << "): ";
+
+    bool first = true;
+
+    for (size_t i = 0;
+         i < buildings.size();
+         i++)
+    {
+        if (getDegree(i) ==
+            highestDegree)
+        {
+            if (!first)
+            {
+                cout << ", ";
+            }
+
+            cout << buildings[i];
+
+            first = false;
+        }
+    }
+
+    cout << "\n";
+
+    cout << "Isolated buildings: ";
+
+    bool foundIsolated = false;
+
+    for (size_t i = 0;
+         i < buildings.size();
+         i++)
+    {
+        if (getDegree(i) == 0)
+        {
+            if (foundIsolated)
+            {
+                cout << ", ";
+            }
+
+            cout << buildings[i];
+
+            foundIsolated = true;
+        }
+    }
+
+    if (!foundIsolated)
+    {
+        cout << "None";
+    }
+
+    cout << "\n";
+
+    cout << "Connected components: "
+         << countConnectedComponents()
+         << "\n";
 }
