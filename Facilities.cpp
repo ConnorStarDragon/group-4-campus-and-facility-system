@@ -97,3 +97,36 @@ vector<Facilities> Search(const vector<Facilities>& facilities, string id) {
     }
     return results;
 }
+
+void FacilityCategoryReport(const vector<Facilities>& facilities) {
+    vector<Categories> categories; // Vector to store unique facility categories and their counts
+    int total = facilities.size(); // Total number of facilities
+    for (Facilities f : facilities) {
+        string category = f.getFacilityType();
+        bool found = false;
+        for (Categories& c : categories) {
+            if (c.categoryName == category) {
+                c.count++; // Increment the count if the category already exists
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            Categories newCategory; // Create a new category if it doesn't exist
+            newCategory.categoryName = category;
+            newCategory.count = 1;
+            categories.push_back(newCategory);
+        }
+    }
+
+    cout << "\nFacility Category Report:\n";
+    cout << "+--------------------------+-------+------------+\n";
+    cout << "| Facility Category        | Count | Percentage |\n";
+    cout << "+--------------------------+-------+------------+\n";
+    for (const Categories& c : categories) {
+        double percentage = (double)c.count / total * 100;
+        cout << "| " << left << setw(24) << c.categoryName << " | " << right << setw(5) << c.count << " | " << fixed << setprecision(2) << setw(8) << percentage << " % |\n";
+    }
+    cout << "+--------------------------+-------+------------+\n";
+
+}

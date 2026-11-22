@@ -192,6 +192,26 @@ int main()
             }
             break;
         }
+        case 3:
+        {
+            cout << "\nEnter facility name: ";
+            string searchName;
+            cin.ignore();
+            getline(cin, searchName);
+            vector<Facilities> results = Search(facilities, searchName);
+            displayFacilities(results);
+            break;
+        }
+        case 4:
+        {
+            cout << "\nEnter facility category: ";
+            string searchCategory;
+            cin.ignore();
+            getline(cin, searchCategory);
+            vector<Facilities> results = Search(facilities, searchCategory);
+            displayFacilities(results);
+            break;
+        }
         case 5: 
             graph.displayGraph();
             break;
@@ -343,7 +363,7 @@ int main()
             cout << "Department statistics is a work in progress." << endl;
             break;
         case 16:
-            cout << "Facility category report is a work in progress." << endl;
+            FacilityCategoryReport(facilities);
             break;
         case 17:
             graph.displayConnectivityReport();
