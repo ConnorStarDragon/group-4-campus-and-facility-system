@@ -139,16 +139,22 @@ int main()
         cout << "\n\nPlease enter the number corresponding to the action you would like to take." << endl;
         cout << "1. View all facilities" << endl;
         cout << "2. Search facility by ID" << endl;
-        cout << "3. View campus graph" << endl;
-        cout << "4. Display graph counts and degrees" << endl;
-        cout << "5. Find reachable buildings (BFS)" << endl;
-        cout << "6. Add department" << endl;
-        cout << "7. Search department" << endl;
-        cout << "8. Display department hierarchy" << endl;
-        cout << "9. Run preorder traversal" << endl;
-        cout << "10. Find shortest path (BFS)" << endl;
-		cout << "11. Graph connectivity report" << endl;
-        cout << "12. Exit" << endl;
+        cout << "3. Search facility by name" << endl;
+        cout << "4. Search facility by category" << endl;
+        cout << "5. View campus graph" << endl;
+        cout << "6. Display graph counts and degrees" << endl;
+        cout << "7. Find reachable buildings (BFS)" << endl;
+        cout << "8. Find shortest path (BFS)" << endl;
+        cout << "9. Add department" << endl;
+        cout << "10. Search department" << endl;
+        cout << "11. Display department hierarchy" << endl;
+        cout << "12. Run preorder traversal" << endl;
+        cout << "13. postorder traversal" << endl; // WIP
+        cout << "14. level-order traversal" << endl; // WIP
+        cout << "15. Department statistics" << endl; // WIP
+        cout << "16. Facility category report" << endl; // WIP
+		cout << "17. Graph connectivity report" << endl;
+		cout << "18. Exit" << endl;
 
         int input;
         cin >> input;
@@ -186,15 +192,15 @@ int main()
             }
             break;
         }
-        case 3: 
+        case 5: 
             graph.displayGraph();
             break;
 
-        case 4: 
+        case 6: 
             graph.displayGraphStatistics();
             break;
 
-        case 5: 
+        case 7: 
         {
             string start;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -208,7 +214,40 @@ int main()
                 graph.bfsReachability(start);   // prints its own error for unknown buildings
             break;
         }
-        case 6:
+        case 8:
+        {
+			string start;
+			string destination;
+
+			cin.ignore(
+				numeric_limits<streamsize>::max(),
+				'\n');
+
+			cout << "Enter start building: ";
+			getline(cin, start);
+
+			cout << "Enter destination building: ";
+			getline(cin, destination);
+
+			trim(start);
+			trim(destination);
+
+			if (start.empty() ||
+				destination.empty())
+			{
+				cout << "Error: Building name cannot be blank."
+					 << endl;
+			}
+			else
+			{
+				graph.shortestPath(
+					start,
+					destination);
+			}
+
+			break;
+		}
+        case 9:
         {
             string name;
             string parent;
@@ -256,7 +295,7 @@ int main()
             }
             break;
         }
-        case 7:
+        case 10:
         {
             string name;
 
@@ -283,66 +322,42 @@ int main()
             }
             break;
         }
-        case 8:
+        case 11:
         {
-            cout << "DEBUG: Case 5 is running!" << endl;
             departments.displayHierarchy();
             break;
         }
 
-        case 9:
+        case 12:
         {
-            cout << "DEBUG: Case 6 is running!" << endl;
             departments.preorderTraversal();
             break;
         }
-        case 10:
-		{
-			string start;
-			string destination;
-
-			cin.ignore(
-				numeric_limits<streamsize>::max(),
-				'\n');
-
-			cout << "Enter start building: ";
-			getline(cin, start);
-
-			cout << "Enter destination building: ";
-			getline(cin, destination);
-
-			trim(start);
-			trim(destination);
-
-			if (start.empty() ||
-				destination.empty())
-			{
-				cout << "Error: Building name cannot be blank."
-					 << endl;
-			}
-			else
-			{
-				graph.shortestPath(
-					start,
-					destination);
-			}
-
-			break;
-		}
-		case 11:
-		{
-			graph.displayConnectivityReport();
-			break;
-		}
-
-        case 12: 
+        case 13:
+            cout << "Postorder traversal is a work in progress." << endl;
+            break;
+        case 14:
+            cout << "Level-order traversal is a work in progress." << endl;
+            break;
+        case 15:
+            cout << "Department statistics is a work in progress." << endl;
+            break;
+        case 16:
+            cout << "Facility category report is a work in progress." << endl;
+            break;
+        case 17:
+            graph.displayConnectivityReport();
+            break;
+        case 18: 
             cout << "Exiting the program. Goodbye!" << endl;
             return 0;
             break;
-
-            //!!!!!!!!!!!!!
-            // Only for debugging REMOVE THIS CASE IN FINAL VERSION!
-            //!!!!!!!!!!!!!
+		
+		
+        //!!!!!!!!!!!!!
+        // Only for debugging REMOVE THIS CASE IN FINAL VERSION!
+        //!!!!!!!!!!!!!
+		
         case 0:
             cout << "Debug commands:" << endl;
             cout << "1. display hash table" << endl;
