@@ -3,6 +3,12 @@
 
 
 using namespace std;
+
+struct Categories { // For facility category report
+    string categoryName; 
+    int count;
+};
+
 class Facilities {
     private:
         string id;
@@ -28,3 +34,5 @@ class Facilities {
         void displayFacilities(const vector<Facilities>& facilities); // Display all facilities in the vector
 
         vector<Facilities> Search(const vector<Facilities>& facilities, string id); // Search for facilities by ID
+
+        void FacilityCategoryReport(const vector<Facilities>& facilities); // Generate a report of facility categories
