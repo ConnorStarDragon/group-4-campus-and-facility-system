@@ -1,6 +1,7 @@
 #include "department.h"
 #include <iostream>
 #include <fstream>
+#include <queue>
 
 using namespace std;
 
@@ -405,4 +406,134 @@ void DepartmentTree::displayDepartments()
     cout << "\n===== ALL DEPARTMENTS =====" << endl;
 
     printDepartmentList(root);
+}
+
+// Visits all children before printing their parent
+void DepartmentTree::printPostorder(DepartmentNode *current, bool &first)
+{
+    if (current == nullptr)
+    {
+        return;
+    }
+
+    // Visit children first
+    for (DepartmentNode *child : current->children)
+    {
+        printPostorder(child, first);
+    }
+
+    if (!first)
+    {
+        cout << ", ";
+    }
+
+    // Print parent after children
+    cout << current->name;
+    first = false;
+}
+
+// Start postorder traversal
+void DepartmentTree::postorderTraversal()
+{
+    if (root == nullptr)
+    {
+        cout << "No departments are loaded." << endl;
+        return;
+    }
+
+    bool first = true;
+    printPostorder(root, first);
+    cout << endl;
+}
+
+// Visits departments one level at a time
+void DepartmentTree::levelOrderTraversal()
+{
+    if (root == nullptr)
+    {
+        cout << "No departments are loaded." << endl;
+        return;
+    }
+
+    queue<DepartmentNode *> departmentsToVisit;
+    departmentsToVisit.push(root);
+
+    bool first = true;
+
+    while (!departmentsToVisit.empty())
+    {
+        DepartmentNode *current = departmentsToVisit.front();
+        departmentsToVisit.pop();
+
+        if (!first)
+        {
+            cout << ", ";
+        }
+
+        cout << current->name;
+        first = false;
+
+        // Add children to queue
+        for (DepartmentNode *child : current->children)
+        {
+            departmentsToVisit.push(child);
+        }
+    }
+
+    cout << endl;
+}
+
+// Counts departments, leaves, and maximum depth
+void DepartmentTree::countDepartmentStats(
+    DepartmentNode *current, int depth,
+    int &total, int &leaves, int &height)
+{
+    if (current == nullptr)
+    {
+        return;
+    }
+
+    total++;
+
+    // A leaf is a department with no children
+    if (current->children.empty())
+    {
+        leaves++;
+    }
+
+    // Update height when we find a deeper department
+    if (depth > height)
+    {
+        height = depth;
+    }
+
+    // Check all child departments
+    for (DepartmentNode *child : current->children)
+    {
+        countDepartmentStats(child, depth + 1,
+                             total, leaves, height);
+    }
+}
+
+// Displays department statistics
+void DepartmentTree::displayDepartmentStatistics()
+{
+    if (root == nullptr)
+    {
+        cout << "No departments are loaded." << endl;
+        cout << "Total departments: 0" << endl;
+        cout << "Leaf departments: 0" << endl;
+        cout << "Tree height: N/A" << endl;
+        return;
+    }
+
+    int total = 0;
+    int leaves = 0;
+    int height = 0;
+
+    countDepartmentStats(root, 0, total, leaves, height);
+
+    cout << "Total departments: " << total << endl;
+    cout << "Leaf departments: " << leaves << endl;
+    cout << "Tree height: " << height << endl;
 }

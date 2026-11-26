@@ -149,12 +149,12 @@ int main()
         cout << "10. Search department" << endl;
         cout << "11. Display department hierarchy" << endl;
         cout << "12. Run preorder traversal" << endl;
-        cout << "13. postorder traversal" << endl; // WIP
-        cout << "14. level-order traversal" << endl; // WIP
-        cout << "15. Department statistics" << endl; // WIP
+        cout << "13. postorder traversal" << endl;      // WIP
+        cout << "14. level-order traversal" << endl;    // WIP
+        cout << "15. Department statistics" << endl;    // WIP
         cout << "16. Facility category report" << endl; // WIP
-		cout << "17. Graph connectivity report" << endl;
-		cout << "18. Exit" << endl;
+        cout << "17. Graph connectivity report" << endl;
+        cout << "18. Exit" << endl;
 
         int input;
         cin >> input;
@@ -212,15 +212,15 @@ int main()
             displayFacilities(results);
             break;
         }
-        case 5: 
+        case 5:
             graph.displayGraph();
             break;
 
-        case 6: 
+        case 6:
             graph.displayGraphStatistics();
             break;
 
-        case 7: 
+        case 7:
         {
             string start;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -231,42 +231,42 @@ int main()
             if (start.empty())
                 cout << "Error: Building name cannot be blank." << endl;
             else
-                graph.bfsReachability(start);   // prints its own error for unknown buildings
+                graph.bfsReachability(start); // prints its own error for unknown buildings
             break;
         }
         case 8:
         {
-			string start;
-			string destination;
+            string start;
+            string destination;
 
-			cin.ignore(
-				numeric_limits<streamsize>::max(),
-				'\n');
+            cin.ignore(
+                numeric_limits<streamsize>::max(),
+                '\n');
 
-			cout << "Enter start building: ";
-			getline(cin, start);
+            cout << "Enter start building: ";
+            getline(cin, start);
 
-			cout << "Enter destination building: ";
-			getline(cin, destination);
+            cout << "Enter destination building: ";
+            getline(cin, destination);
 
-			trim(start);
-			trim(destination);
+            trim(start);
+            trim(destination);
 
-			if (start.empty() ||
-				destination.empty())
-			{
-				cout << "Error: Building name cannot be blank."
-					 << endl;
-			}
-			else
-			{
-				graph.shortestPath(
-					start,
-					destination);
-			}
+            if (start.empty() ||
+                destination.empty())
+            {
+                cout << "Error: Building name cannot be blank."
+                     << endl;
+            }
+            else
+            {
+                graph.shortestPath(
+                    start,
+                    destination);
+            }
 
-			break;
-		}
+            break;
+        }
         case 9:
         {
             string name;
@@ -347,37 +347,45 @@ int main()
             departments.displayHierarchy();
             break;
         }
-
         case 12:
         {
+            cout << "\n===== PREORDER TRAVERSAL =====" << endl;
             departments.preorderTraversal();
             break;
         }
         case 13:
-            cout << "Postorder traversal is a work in progress." << endl;
+        {
+            cout << "\n===== POSTORDER TRAVERSAL =====" << endl;
+            departments.postorderTraversal();
             break;
+        }
         case 14:
-            cout << "Level-order traversal is a work in progress." << endl;
+        {
+            cout << "\n===== LEVEL-ORDER TRAVERSAL =====" << endl;
+            departments.levelOrderTraversal();
             break;
+        }
         case 15:
-            cout << "Department statistics is a work in progress." << endl;
+        {
+            cout << "\n===== DEPARTMENT STATISTICS =====" << endl;
+            departments.displayDepartmentStatistics();
             break;
+        }
         case 16:
             FacilityCategoryReport(facilities);
             break;
         case 17:
             graph.displayConnectivityReport();
             break;
-        case 18: 
+        case 18:
             cout << "Exiting the program. Goodbye!" << endl;
             return 0;
             break;
-		
-		
-        //!!!!!!!!!!!!!
-        // Only for debugging REMOVE THIS CASE IN FINAL VERSION!
-        //!!!!!!!!!!!!!
-		
+
+            //!!!!!!!!!!!!!
+            // Only for debugging REMOVE THIS CASE IN FINAL VERSION!
+            //!!!!!!!!!!!!!
+
         case 0:
             cout << "Debug commands:" << endl;
             cout << "1. display hash table" << endl;

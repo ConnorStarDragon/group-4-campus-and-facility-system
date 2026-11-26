@@ -42,6 +42,12 @@ private:
     // delete allocated nodes
     void deleteNodes(DepartmentNode *current);
 
+    // Visits children before their parent
+    void printPostorder(DepartmentNode *current, bool &first);
+
+    // Counts departments, leaves, and height
+    void countDepartmentStats(DepartmentNode *current, int depth, int &total, int &leaves, int &height);
+
 public:
     // Display all departments
     void displayDepartments();
@@ -67,6 +73,15 @@ public:
 
     // Display preorder traversal
     void preorderTraversal();
+
+    // Display postorder traversal
+    void postorderTraversal();
+
+    // Display level-order traversal
+    void levelOrderTraversal();
+
+    // Display department statistics
+    void displayDepartmentStatistics();
 };
 
 #endif
